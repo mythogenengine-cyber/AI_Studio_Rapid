@@ -57,7 +57,7 @@ export const TRANSLATIONS = {
     
     // Key Stats Grid
     statVsMedianTitle: '全球收入基準倍數',
-    statVsMedianSub: '相對於全球最低 50% 平均收入 $5,100（WIR 2026）',
+    statVsMedianSub: '相對於全球最低 50% 成人平均收入 €5,100（WIR 2026）',
     statVsMedianWealthSub: '全球成年人淨資產中位數為 $9,000 USD',
     statVsPovertyTitle: '超越極端貧窮線',
     statVsPovertySub: '世界銀行貧窮線 $3.00/天 ($1,095/年，2021 PPP)',
@@ -83,7 +83,7 @@ export const TRANSLATIONS = {
     insight2Title: '購買力平價 (PPP) 的限制與注意事項',
     insight2Desc: '購買力平價按全國平均消費籃子計算。如果你收入中租金或外食佔比較高，實際購買力會比換算結果低。',
     insight3Title: '如果將收入換算成工時',
-    insight3Desc: '全球最低 50% 平均收入的工人需要全職工作約 {years} 年，才能賺取您一年的所得。',
+    insight3Desc: '全球最低 50% 平均收入的成年人需要全職工作約 {years} 年，才能賺取您一年的所得。',
     
     // Unmeasured Box (這個排名量不到的事)
     unmeasuredTitle: '這個排名量不到的事',
@@ -96,12 +96,12 @@ export const TRANSLATIONS = {
     // Distribution Curve
     curveTitle: '全球收入分布曲線 (Log-Pareto Distribution)',
     curveSubtitle: '觀察世界人口的收入累積狀況，即時移動標記試算',
-    curveXAxis: '年收入 (USD PPP)',
+    curveXAxis: '年收入 (EUR PPP)',
     curveYAxis: '人口密度',
     curveYourPosition: '您目前的位置',
-    curveMedianLabel: '底層 50% 均值 $5,100',
-    curveTop10Label: '前 10% 門檻 $65.5k',
-    curveTop1Label: '前 1% 門檻 $250.3k',
+    curveMedianLabel: '底層 50% 均值 €5,100',
+    curveTop10Label: '前 10% 門檻 €65.5k',
+    curveTop1Label: '前 1% 門檻 €250.3k',
     curveInteractivePrompt: '點擊或滑動曲線上的任意點，查看不同收入對應的全球排名：',
     simulatedIncome: '模擬年薪：',
     simulatedPercentile: '對應全球名次：',
@@ -141,7 +141,7 @@ export const TRANSLATIONS = {
     // Methodology Content
     methodologyTitle: '資料來源與經濟學模型說明 (100% 離線純本機運算)',
     sourceNoApiKey: '⚡ 零 API KEY 保證：本系統所有百分位與國別對照皆為 100% 本地 JavaScript 計量經濟學插值運算，所有 WID、世界銀行、OECD 與各國匯率係數已完整鎖定於前端靜態數據庫（基準日：2026 年 10 月 21 日），完全不調用任何後端 AI 模型或付費 API，不會產生任何 AI Token 費用。',
-    sourceWID: '1. 世界不平等資料庫 (World Inequality Database, WID.world) / 世界不平等報告 2026：提供全球成人稅前國民收入（PPP 美元）最新百分位數據，全球前 10% 門檻為 $65,500 PPP，前 1% 門檻為 $250,300 PPP。',
+    sourceWID: '1. 世界不平等資料庫 (World Inequality Database, WID.world) / 世界不平等報告 2026：提供全球成人稅前國民收入（購買力平價歐元，2025 年價格）最新百分位數據，全球前 10% 門檻為 €65,500 PPP，前 1% 門檻為 €250,300 PPP。',
     sourceWB: '2. 世界銀行貧窮與不平等平台 (World Bank PIP)：提供各國國際購買力平價 (PPP) 係數與極端貧窮線基準（$3.00/天，2021 PPP）。',
     sourceUBS: '3. 瑞銀全球財富報告 (UBS Global Wealth Report)：提供世界各國成年人淨資產分布與百萬美元富翁人數統計。',
     sourceOECD: '4. WID 成人平等分攤原則：家庭收入由家中成年人人數平均分攤，兒童不計入分攤。',
@@ -204,7 +204,7 @@ export const TRANSLATIONS = {
     
     // Key Stats Grid
     statVsMedianTitle: 'vs Global Income Benchmark',
-    statVsMedianSub: 'vs Bottom 50% average income: $5,100 (WIR 2026)',
+    statVsMedianSub: 'vs Bottom 50% average income: €5,100 (WIR 2026)',
     statVsMedianWealthSub: 'Global adult net wealth median is $9,000 USD',
     statVsPovertyTitle: 'vs Extreme Poverty Line',
     statVsPovertySub: 'World Bank threshold: $3.00/day ($1,095/yr, 2021 PPP)',
@@ -230,7 +230,7 @@ export const TRANSLATIONS = {
     insight2Title: 'Purchasing Power Parity (PPP) Caveats',
     insight2Desc: 'Purchasing power parity is calculated based on a national average consumption basket. If rent or eating out accounts for a high share of your spending, your actual purchasing power will be lower than the converted result.',
     insight3Title: 'Earnings over a lifetime',
-    insight3Desc: 'A typical worker earning the global bottom 50% average would need to work for {years} years to earn your annual income.',
+    insight3Desc: 'An adult earning the global bottom 50% average would need to work for {years} years to earn your annual income.',
     
     // Unmeasured Box (這個排名量不到的事)
     unmeasuredTitle: 'What this ranking cannot measure',
@@ -243,12 +243,12 @@ export const TRANSLATIONS = {
     // Distribution Curve
     curveTitle: 'Global Income Distribution Curve (Log-Pareto)',
     curveSubtitle: 'Explore the population distribution and simulate custom income levels',
-    curveXAxis: 'Annual Income (USD PPP)',
+    curveXAxis: 'Annual Income (EUR PPP)',
     curveYAxis: 'Population Density',
     curveYourPosition: 'Your Position',
-    curveMedianLabel: 'Bottom 50% Avg $5,100',
-    curveTop10Label: 'Top 10% $65.5k',
-    curveTop1Label: 'Top 1% $250.3k',
+    curveMedianLabel: 'Bottom 50% Avg €5,100',
+    curveTop10Label: 'Top 10% €65.5k',
+    curveTop1Label: 'Top 1% €250.3k',
     curveInteractivePrompt: 'Click or drag along the curve to see the global percentile at any income level:',
     simulatedIncome: 'Simulated Annual Income: ',
     simulatedPercentile: 'Global Standing: ',
@@ -288,7 +288,7 @@ export const TRANSLATIONS = {
     // Methodology Content
     methodologyTitle: 'Data Sources & Econometric Modeling (100% Offline Local Engine)',
     sourceNoApiKey: '⚡ ZERO API KEY GUARANTEE: All percentiles, purchasing power parity adjustments, and country benchmarks run 100% locally in your browser via econometric interpolation. All WID, World Bank, OECD, and FX exchange rates are permanently frozen in the local frontend bundle (as of October 21, 2026). Zero backend AI model calls, zero API keys required, and zero token costs.',
-    sourceWID: '1. World Inequality Database (WID.world) / World Inequality Report 2026: Adult pre-tax national income (USD PPP). Global top 10% threshold: $65,500 PPP; top 1% threshold: $250,300 PPP.',
+    sourceWID: '1. World Inequality Database (WID.world) / World Inequality Report 2026: Adult pre-tax national income (EUR PPP, 2025 prices). Global top 10% threshold: €65,500 PPP; top 1% threshold: €250,300 PPP.',
     sourceWB: '2. World Bank Poverty & Inequality Platform (PIP): Purchasing Power Parity (PPP) conversion indices and extreme poverty line ($3.00/day, 2021 PPP).',
     sourceUBS: '3. UBS Global Wealth Report: Global adult net wealth percentiles and millionaire population counts.',
     sourceOECD: '4. WID Equal Adult Sharing: Household income is divided equally among adults only; children are not counted.',

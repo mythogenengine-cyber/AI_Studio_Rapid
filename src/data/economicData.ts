@@ -7,15 +7,17 @@ export const DATA_LOCKED_LABEL_EN = 'Data Locked As Of: October 2026 · Offline 
 export const GLOBAL_TOTAL_POPULATION = 8_150_000_000;
 export const GLOBAL_ADULT_POPULATION = 5_480_000_000;
 
+// 每 1 國際元（美元 PPP）折合購買力平價歐元係數（OECD/Eurostat 係數，近似值，待核實）
+export const EUR_PPP_PER_USD_PPP = 0.70;
+
 // World Bank Global Poverty Lines (USD PPP per year per person, World Bank June 2025 standard, 2021 PPP)
-export const GLOBAL_POVERTY_EXTREME_ANNUAL = 3.00 * 365; // $1,095/yr ($3.00/day, 2021 PPP)
+export const GLOBAL_POVERTY_EXTREME_ANNUAL = 3.00 * 365; // $1,095/yr ($3.00/day, 2021 PPP 美元)
 export const GLOBAL_POVERTY_LOWER_MIDDLE_ANNUAL = 3.65 * 365; // ~$1,332/yr
 export const GLOBAL_POVERTY_UPPER_MIDDLE_ANNUAL = 6.85 * 365; // ~$2,500/yr
 
-// Global Income Benchmarks (World Inequality Report 2026 / WID.world, USD PPP per adult)
-export const GLOBAL_BOTTOM_50_AVERAGE_INCOME_PPP = 5100; // 最低 50% 成人平均收入約 $5,100 USD PPP (WIR 2026)
-export const GLOBAL_MEDIAN_ANNUAL_INCOME_PPP = 6200; // 曲線 p50 中位數插值估算 ($6,200 USD PPP)
-export const GLOBAL_AVERAGE_ANNUAL_INCOME_PPP = 23380; // WIR 2026 全球成人平均所得約 $23,380 USD PPP
+// Global Income Benchmarks (World Inequality Report 2026 / WID.world，單位：PPP 歐元，2025年價格，成人稅前國民收入)
+export const GLOBAL_BOTTOM_50_AVERAGE_INCOME_EUR_PPP = 5100; // 最低 50% 成人平均收入約 €5,100 PPP 歐元 (WIR 2026)
+export const GLOBAL_MEDIAN_ANNUAL_INCOME_EUR_PPP = 11400; // 曲線 p50 中位數插值估算 (€11,400 PPP 歐元)
 
 // Global Wealth Benchmarks (UBS Global Wealth Report in USD nominal)
 export const GLOBAL_MEDIAN_NET_WEALTH = 9000;
@@ -28,7 +30,7 @@ export const GLOBAL_AVERAGE_NET_WEALTH = 89000;
 export const CURRENCIES: Record<string, CurrencyInfo> = {
   USD: { code: 'USD', symbol: '$', nameZh: '美元 (USD)', nameEn: 'US Dollar (USD)', rateToUsd: 1.0, pppFactorToUsd: 1.0 },
   TWD: { code: 'TWD', symbol: 'NT$', nameZh: '新台幣 (TWD)', nameEn: 'New Taiwan Dollar (TWD)', rateToUsd: 32.2, pppFactorToUsd: 13.8 },
-  EUR: { code: 'EUR', symbol: '€', nameZh: '歐元 (EUR)', nameEn: 'Euro (EUR)', rateToUsd: 0.92, pppFactorToUsd: 0.78 },
+  EUR: { code: 'EUR', symbol: '€', nameZh: '歐元 (EUR)', nameEn: 'Euro (EUR)', rateToUsd: 0.92, pppFactorToUsd: EUR_PPP_PER_USD_PPP },
   GBP: { code: 'GBP', symbol: '£', nameZh: '英鎊 (GBP)', nameEn: 'British Pound (GBP)', rateToUsd: 0.78, pppFactorToUsd: 0.69 },
   JPY: { code: 'JPY', symbol: '¥', nameZh: '日圓 (JPY)', nameEn: 'Japanese Yen (JPY)', rateToUsd: 154.0, pppFactorToUsd: 104.0 },
   CNY: { code: 'CNY', symbol: '¥', nameZh: '人民幣 (CNY)', nameEn: 'Chinese Yuan (CNY)', rateToUsd: 7.24, pppFactorToUsd: 4.18 },
@@ -361,39 +363,39 @@ export const COUNTRIES: Record<string, CountryData> = {
 };
 
 /**
- * Global Income Curve Spline Points (Percentile 0 to 100 vs Annual Income in USD PPP).
+ * Global Income Curve Spline Points (Percentile 0 to 100 vs Annual Income in EUR PPP).
  * 基準來源：世界不平等報告 2026（World Inequality Report 2026, WIR 2026 / WID.world）。
- * 統計口徑：成人稅前國民收入，PPP 美元（Pre-tax national income per adult, USD PPP）。
- * 核心標竿：
- * - 最低 50% 成人平均收入：約 $5,100 USD PPP (WIR 2026)
- * - p50 中位數：約 $6,200 USD PPP (插值估算)
- * - p90 前 10% 門檻：$65,500 USD PPP (WIR 2026)
- * - p99 前 1% 門檻：$250,300 USD PPP (WIR 2026)
+ * 統計口徑：20歲以上成人稅前國民收入，購買力平價歐元 (PPP €，2025年價格)，夫婦平分收入。
+ * 核心標竿（WIR 2026）：
+ * - 最低 50% 成人平均收入：約 €5,100 PPP 歐元（佔總收入約 8.5%）
+ * - p50 中位數：約 €11,400 PPP 歐元 (插值估算)
+ * - p90 前 10% 門檻：€65,500 PPP 歐元（前 10% 平均收入約 €159,300，佔總收入約 53%）
+ * - p99 前 1% 門檻：€250,300 PPP 歐元
  */
-export const GLOBAL_INCOME_SPLINE_PPP: Array<{ percentile: number; incomeUsdPpp: number }> = [
-  { percentile: 0.0, incomeUsdPpp: 0 }, // 起始點
-  { percentile: 1.0, incomeUsdPpp: 350 }, // 插值估算
-  { percentile: 5.0, incomeUsdPpp: 750 }, // 插值估算
-  { percentile: 10.0, incomeUsdPpp: 1095 }, // 世界銀行極端貧窮線基準 ($3.00/天，2021 PPP，年額 $1,095)
-  { percentile: 20.0, incomeUsdPpp: 1800 }, // 插值估算
-  { percentile: 30.0, incomeUsdPpp: 2700 }, // 插值估算
-  { percentile: 40.0, incomeUsdPpp: 4100 }, // 插值估算
-  { percentile: 50.0, incomeUsdPpp: 6200 }, // 插值估算（令最低 50% 平均收入符合 WIR 2026 之約 $5,100）
-  { percentile: 60.0, incomeUsdPpp: 10500 }, // 插值估算
-  { percentile: 70.0, incomeUsdPpp: 18500 }, // 插值估算
-  { percentile: 75.0, incomeUsdPpp: 25000 }, // 插值估算
-  { percentile: 80.0, incomeUsdPpp: 34000 }, // 插值估算
-  { percentile: 85.0, incomeUsdPpp: 47000 }, // 插值估算
-  { percentile: 90.0, incomeUsdPpp: 65500 }, // WIR 2026 基準：全球前 10% 門檻 (PPP 美元/成人)
-  { percentile: 92.0, incomeUsdPpp: 82000 }, // 插值估算
-  { percentile: 95.0, incomeUsdPpp: 122000 }, // 插值估算
-  { percentile: 97.0, incomeUsdPpp: 165000 }, // 插值估算
-  { percentile: 98.0, incomeUsdPpp: 198000 }, // 插值估算
-  { percentile: 99.0, incomeUsdPpp: 250300 }, // WIR 2026 基準：全球前 1% 門檻 (PPP 美元/成人)
-  { percentile: 99.5, incomeUsdPpp: 390000 }, // 插值估算
-  { percentile: 99.9, incomeUsdPpp: 750000 }, // 插值估算 (全球前 0.1% 門檻)
-  { percentile: 99.99, incomeUsdPpp: 2500000 }, // 插值估算 (全球前 0.01% 門檻)
-  { percentile: 100.0, incomeUsdPpp: 50000000 }, // 插值估算上限
+export const GLOBAL_INCOME_SPLINE_PPP: Array<{ percentile: number; incomeEurPpp: number }> = [
+  { percentile: 0.0, incomeEurPpp: 0 }, // 起始點
+  { percentile: 1.0, incomeEurPpp: 650 }, // 插值估算
+  { percentile: 5.0, incomeEurPpp: 1500 }, // 插值估算
+  { percentile: 10.0, incomeEurPpp: 2400 }, // 插值估算
+  { percentile: 20.0, incomeEurPpp: 3950 }, // 插值估算
+  { percentile: 30.0, incomeEurPpp: 5700 }, // 插值估算
+  { percentile: 40.0, incomeEurPpp: 8100 }, // 插值估算
+  { percentile: 50.0, incomeEurPpp: 11400 }, // 插值估算（令最低 50% 平均收入符合 WIR 2026 之約 €5,100）
+  { percentile: 60.0, incomeEurPpp: 17200 }, // 插值估算
+  { percentile: 70.0, incomeEurPpp: 25500 }, // 插值估算
+  { percentile: 75.0, incomeEurPpp: 31000 }, // 插值估算
+  { percentile: 80.0, incomeEurPpp: 39500 }, // 插值估算
+  { percentile: 85.0, incomeEurPpp: 50500 }, // 插值估算
+  { percentile: 90.0, incomeEurPpp: 65500 }, // WIR 2026 基準：全球前 10% 門檻 (PPP €/成人)
+  { percentile: 92.0, incomeEurPpp: 80500 }, // 插值估算
+  { percentile: 95.0, incomeEurPpp: 115000 }, // 插值估算
+  { percentile: 97.0, incomeEurPpp: 154000 }, // 插值估算
+  { percentile: 98.0, incomeEurPpp: 190000 }, // 插值估算
+  { percentile: 99.0, incomeEurPpp: 250300 }, // WIR 2026 基準：全球前 1% 門檻 (PPP €/成人)
+  { percentile: 99.5, incomeEurPpp: 390000 }, // 插值估算
+  { percentile: 99.9, incomeEurPpp: 750000 }, // 插值估算 (全球前 0.1% 門檻)
+  { percentile: 99.99, incomeEurPpp: 2300000 }, // 插值估算 (全球前 0.01% 門檻)
+  { percentile: 100.0, incomeEurPpp: 50000000 }, // 插值估算上限
 ];
 
 /**
@@ -507,12 +509,12 @@ export const PRESET_SCENARIOS: PresetScenario[] = [
     id: 'global_median',
     titleZh: '全球底層 50% 平均收入',
     titleEn: 'Global Bottom 50% Avg',
-    subtitleZh: '年收入 5,100 美元 PPP (WIR 2026)',
-    subtitleEn: '$5,100/yr PPP (WIR 2026)',
+    subtitleZh: '年收入 €5,100 PPP (WIR 2026)',
+    subtitleEn: '€5,100/yr PPP (WIR 2026)',
     amount: 5100,
-    currency: 'USD',
+    currency: 'EUR',
     period: 'year',
-    country: 'US',
+    country: 'DE',
     adults: 1,
     children: 0,
   },
@@ -520,12 +522,12 @@ export const PRESET_SCENARIOS: PresetScenario[] = [
     id: 'global_top_1',
     titleZh: '全球收入前 1% 門檻',
     titleEn: 'Global Top 1% Threshold',
-    subtitleZh: '年收入 250,300 美元 PPP (WIR 2026)',
-    subtitleEn: '$250,300/yr PPP (WIR 2026)',
+    subtitleZh: '年收入 €250,300 PPP (WIR 2026)',
+    subtitleEn: '€250,300/yr PPP (WIR 2026)',
     amount: 250300,
-    currency: 'USD',
+    currency: 'EUR',
     period: 'year',
-    country: 'US',
+    country: 'DE',
     adults: 1,
     children: 0,
   },

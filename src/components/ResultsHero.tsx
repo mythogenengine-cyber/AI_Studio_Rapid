@@ -59,8 +59,12 @@ export const ResultsHero: React.FC<ResultsHeroProps> = ({
           <span className="text-slate-300" aria-hidden="true">·</span>
           <span className="text-slate-500 lowercase">
             {lang === 'zh'
-              ? `折合年收入 $${Math.round(result.annualUsdPpp).toLocaleString()} USD PPP`
-              : `$${Math.round(result.annualUsdPpp).toLocaleString()} USD PPP equiv.`}
+              ? mode === 'income'
+                ? `折合年收入 €${Math.round(result.annualEurPpp).toLocaleString()} EUR PPP`
+                : `折合淨資產 $${Math.round(result.annualUsdPpp).toLocaleString()} USD`
+              : mode === 'income'
+                ? `€${Math.round(result.annualEurPpp).toLocaleString()} EUR PPP equiv.`
+                : `$${Math.round(result.annualUsdPpp).toLocaleString()} USD equiv.`}
           </span>
         </div>
 
@@ -113,9 +117,9 @@ export const ResultsHero: React.FC<ResultsHeroProps> = ({
       <div className="mb-8 p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200">
         <div className="flex justify-between items-center text-xs font-semibold text-slate-500 mb-2">
           <span>0% ({lang === 'zh' ? '底層' : 'Lowest'})</span>
-          <span>50% ({lang === 'zh' ? '底層50%均值 $5.1k' : 'Bottom 50% Avg $5.1k'})</span>
-          <span>90% ({lang === 'zh' ? '前 10% $65.5k' : 'Top 10% $65.5k'})</span>
-          <span className="text-indigo-700 font-bold">99% ({lang === 'zh' ? '前 1% $250.3k' : 'Top 1% $250.3k'})</span>
+          <span>50% ({lang === 'zh' ? '底層50%均值 €5.1k' : 'Bottom 50% Avg €5.1k'})</span>
+          <span>90% ({lang === 'zh' ? '前 10% €65.5k' : 'Top 10% €65.5k'})</span>
+          <span className="text-indigo-700 font-bold">99% ({lang === 'zh' ? '前 1% €250.3k' : 'Top 1% €250.3k'})</span>
         </div>
 
         {/* Percentile track */}
@@ -180,13 +184,24 @@ export const ResultsHero: React.FC<ResultsHeroProps> = ({
             <span>{t.statDailyRateTitle}</span>
           </div>
           <div className="text-2xl font-extrabold text-slate-900 tabular-nums">
-            ${Math.round(result.dailyEarningsUsdPpp).toLocaleString()}
-            <span className="text-xs font-normal text-slate-500 ml-1">PPP/天</span>
+            {mode === 'income' ? (
+              <>
+                €{Math.round(result.dailyEarningsEurPpp).toLocaleString()}
+                <span className="text-xs font-normal text-slate-500 ml-1">PPP/天</span>
+              </>
+            ) : (
+              <>
+                ${Math.round(result.dailyEarningsUsdPpp).toLocaleString()}
+                <span className="text-xs font-normal text-slate-500 ml-1">USD</span>
+              </>
+            )}
           </div>
           <p className="text-[11px] text-slate-500 mt-1 flex items-center gap-1">
             <Clock className="w-3 h-3 text-slate-400" />
             <span>
-              ${result.hourlyEarningsUsdPpp.toFixed(1)} USD PPP / {lang === 'zh' ? '小時' : 'hr'}
+              {mode === 'income'
+                ? `€${result.hourlyEarningsEurPpp.toFixed(1)} EUR PPP / ${lang === 'zh' ? '小時' : 'hr'}`
+                : `$${result.hourlyEarningsUsdPpp.toFixed(1)} USD / ${lang === 'zh' ? '小時' : 'hr'}`}
             </span>
           </p>
         </div>

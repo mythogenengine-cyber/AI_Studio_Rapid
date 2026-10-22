@@ -62,6 +62,7 @@ export interface CalculationResult {
   annualLocal: number;
   annualUsdNominal: number;
   annualUsdPpp: number;
+  annualEurPpp: number;
   individualEquivalentLocal: number;
   individualEquivalentUsdPpp: number;
   
@@ -70,6 +71,8 @@ export interface CalculationResult {
   multiplierVsPovertyLine: number;
   dailyEarningsUsdPpp: number;
   hourlyEarningsUsdPpp: number;
+  dailyEarningsEurPpp: number;
+  hourlyEarningsEurPpp: number;
   
   // Domestic
   domesticPercentile: number; // 0 to 100 in selected country

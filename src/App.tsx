@@ -146,7 +146,7 @@ export default function App() {
         {/* Section 2: Interactive Income Distribution Curve */}
         <InteractiveCurveChart
           lang={lang}
-          userAnnualUsdPpp={calculationResult.annualUsdPpp}
+          userAnnualEurPpp={calculationResult.annualEurPpp}
           userGlobalPercentile={calculationResult.globalPercentile}
         />
 

@@ -7,26 +7,26 @@ import { HelpCircle, Sliders } from 'lucide-react';
 
 interface InteractiveCurveChartProps {
   lang: Language;
-  userAnnualUsdPpp: number;
+  userAnnualEurPpp: number;
   userGlobalPercentile: number;
 }
 
 export const InteractiveCurveChart: React.FC<InteractiveCurveChartProps> = ({
   lang,
-  userAnnualUsdPpp,
+  userAnnualEurPpp,
   userGlobalPercentile,
 }) => {
   const t = getTranslation(lang);
 
   // Interactive exploration slider state
   const [interactiveIncome, setInteractiveIncome] = useState<number>(
-    Math.max(1000, Math.min(250000, Math.round(userAnnualUsdPpp)))
+    Math.max(1000, Math.min(250000, Math.round(userAnnualEurPpp || 11400)))
   );
 
   const interactivePercentile = interpolatePercentile(
     interactiveIncome,
     GLOBAL_INCOME_SPLINE_PPP,
-    'incomeUsdPpp'
+    'incomeEurPpp'
   );
   const interactiveTopPercent = Math.max(0.01, 100 - interactivePercentile);
 
@@ -41,7 +41,7 @@ export const InteractiveCurveChart: React.FC<InteractiveCurveChartProps> = ({
   const chartWidth = width - paddingLeft - paddingRight;
   const chartHeight = height - paddingTop - paddingBottom;
 
-  // We map log-income from $100 to $300,000 on the X axis
+  // We map log-income from €100 to €300,000 on the X axis
   const minLog = Math.log10(150);
   const maxLog = Math.log10(300000);
 
@@ -52,7 +52,7 @@ export const InteractiveCurveChart: React.FC<InteractiveCurveChartProps> = ({
     return paddingLeft + fraction * chartWidth;
   };
 
-  // Approximate global density curve: bell shape on log-scale peaking around median $3,920
+  // Approximate global density curve: bell shape on log-scale peaking around €8,000-€11,000
   // with a thick long Pareto right tail
   const samplePoints: Array<{ x: number; y: number }> = [];
   const steps = 60;
@@ -62,7 +62,7 @@ export const InteractiveCurveChart: React.FC<InteractiveCurveChartProps> = ({
     const incomeVal = Math.pow(10, logVal);
 
     // Density model: log-normal component + Pareto tail
-    const mu = Math.log10(6200); // peak around median $6,200
+    const mu = Math.log10(6200); // peak around log-normal median
     const sigma = 0.58;
     const z = (logVal - mu) / sigma;
     const logNormalDensity = Math.exp(-0.5 * z * z);
@@ -82,15 +82,14 @@ export const InteractiveCurveChart: React.FC<InteractiveCurveChartProps> = ({
 
   const areaD = `${pathD} L ${paddingLeft + chartWidth} ${paddingTop + chartHeight} L ${paddingLeft} ${paddingTop + chartHeight} Z`;
 
-  // Key reference points
+  // Key reference points (EUR PPP)
   const referencePoints = [
-    { label: lang === 'zh' ? '極端貧窮 $1,095' : 'Poverty $1,095', income: 1095 },
-    { label: lang === 'zh' ? '底層均值 $5,100' : 'Bottom 50% $5.1k', income: 5100 },
-    { label: lang === 'zh' ? '前 10% ($65.5k)' : 'Top 10% ($65.5k)', income: 65500 },
-    { label: lang === 'zh' ? '前 1% ($250.3k)' : 'Top 1% ($250.3k)', income: 250300 },
+    { label: lang === 'zh' ? '底層均值 €5,100' : 'Bottom 50% €5.1k', income: 5100 },
+    { label: lang === 'zh' ? '前 10% (€65.5k)' : 'Top 10% (€65.5k)', income: 65500 },
+    { label: lang === 'zh' ? '前 1% (€250.3k)' : 'Top 1% (€250.3k)', income: 250300 },
   ];
 
-  const userX = getX(userAnnualUsdPpp);
+  const userX = getX(userAnnualEurPpp);
   const interactiveX = getX(interactiveIncome);
 
   return (
@@ -175,7 +174,7 @@ export const InteractiveCurveChart: React.FC<InteractiveCurveChartProps> = ({
           })}
 
           {/* User's Current Position Marker */}
-          {userAnnualUsdPpp > 0 && (
+          {userAnnualEurPpp > 0 && (
             <g>
               <line
                 x1={userX}
@@ -227,12 +226,12 @@ export const InteractiveCurveChart: React.FC<InteractiveCurveChartProps> = ({
 
           {/* X Axis Ticks */}
           <g fontSize="10" fill="#64748b" textAnchor="middle">
-            <text x={getX(200)} y={paddingTop + chartHeight + 20}>$200</text>
-            <text x={getX(1000)} y={paddingTop + chartHeight + 20}>$1,000</text>
-            <text x={getX(5000)} y={paddingTop + chartHeight + 20}>$5,000</text>
-            <text x={getX(20000)} y={paddingTop + chartHeight + 20}>$20,000</text>
-            <text x={getX(70000)} y={paddingTop + chartHeight + 20}>$70,000</text>
-            <text x={getX(200000)} y={paddingTop + chartHeight + 20}>$200,000+</text>
+            <text x={getX(200)} y={paddingTop + chartHeight + 20}>€200</text>
+            <text x={getX(1000)} y={paddingTop + chartHeight + 20}>€1,000</text>
+            <text x={getX(5000)} y={paddingTop + chartHeight + 20}>€5,000</text>
+            <text x={getX(20000)} y={paddingTop + chartHeight + 20}>€20,000</text>
+            <text x={getX(70000)} y={paddingTop + chartHeight + 20}>€70,000</text>
+            <text x={getX(200000)} y={paddingTop + chartHeight + 20}>€200,000+</text>
           </g>
         </svg>
       </div>
@@ -259,9 +258,9 @@ export const InteractiveCurveChart: React.FC<InteractiveCurveChartProps> = ({
             <div className="text-slate-700">
               <span className="text-slate-400 font-sans mr-1">{t.simulatedIncome}</span>
               <strong className="text-slate-900 font-bold tabular-nums">
-                ${interactiveIncome.toLocaleString()}
+                €{interactiveIncome.toLocaleString()}
               </strong>{' '}
-              <span className="text-slate-400 font-sans">PPP</span>
+              <span className="text-slate-400 font-sans">EUR PPP</span>
             </div>
 
             <div className="bg-sky-50 text-sky-800 font-bold px-2.5 py-1 rounded-md border border-sky-200">

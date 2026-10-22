@@ -1,11 +1,12 @@
 import {
   COUNTRIES,
   CURRENCIES,
+  EUR_PPP_PER_USD_PPP,
   GLOBAL_ADULT_POPULATION,
-  GLOBAL_BOTTOM_50_AVERAGE_INCOME_PPP,
+  GLOBAL_BOTTOM_50_AVERAGE_INCOME_EUR_PPP,
   GLOBAL_INCOME_SPLINE_NOMINAL,
   GLOBAL_INCOME_SPLINE_PPP,
-  GLOBAL_MEDIAN_ANNUAL_INCOME_PPP,
+  GLOBAL_MEDIAN_ANNUAL_INCOME_EUR_PPP,
   GLOBAL_POVERTY_EXTREME_ANNUAL,
   GLOBAL_TOTAL_POPULATION,
   GLOBAL_WEALTH_SPLINE,
@@ -209,15 +210,18 @@ export function calculateRanking(params: {
   const pppRate = currency.pppFactorToUsd || country.pppRate || 1.0;
   const annualUsdPpp = individualEquivalentLocal / pppRate;
   
+  // 4. Convert USD PPP to EUR PPP (WIR 2026 統一採用購買力平價歐元，2025年價格)
+  const annualEurPpp = annualUsdPpp * EUR_PPP_PER_USD_PPP;
+  
   let globalPercentile = 0;
   
   if (mode === 'wealth') {
-    // Wealth calculation uses nominal wealth distribution
+    // Wealth calculation uses nominal wealth distribution (UBS Report in USD)
     globalPercentile = interpolatePercentile(annualUsdNominal, GLOBAL_WEALTH_SPLINE, 'wealthUsd');
   } else {
-    // Income mode (WIR 2026 pre-tax national income per adult, USD PPP)
+    // Income mode (WIR 2026 pre-tax national income per adult, EUR PPP)
     if (method === 'ppp') {
-      globalPercentile = interpolatePercentile(annualUsdPpp, GLOBAL_INCOME_SPLINE_PPP, 'incomeUsdPpp');
+      globalPercentile = interpolatePercentile(annualEurPpp, GLOBAL_INCOME_SPLINE_PPP, 'incomeEurPpp');
     } else {
       globalPercentile = interpolatePercentile(annualUsdNominal, GLOBAL_INCOME_SPLINE_NOMINAL, 'incomeUsdNominal');
     }
@@ -233,13 +237,15 @@ export function calculateRanking(params: {
   const poorerCountEstimate = targetPopulation - richerCountEstimate;
   
   // Multipliers
-  const effectiveUsdPpp = annualUsdPpp;
-  // 相對全球最低 50% 平均收入 $5,100 (WIR 2026)
-  const multiplierVsGlobalMedian = effectiveUsdPpp > 0 ? effectiveUsdPpp / GLOBAL_BOTTOM_50_AVERAGE_INCOME_PPP : 0;
-  // 相對極端貧窮線 $3.00/天 = $1,095/年 (世界銀行 2021 PPP)
-  const multiplierVsPovertyLine = effectiveUsdPpp > 0 ? effectiveUsdPpp / GLOBAL_POVERTY_EXTREME_ANNUAL : 0;
-  const dailyEarningsUsdPpp = effectiveUsdPpp / 365;
-  const hourlyEarningsUsdPpp = effectiveUsdPpp / 2080;
+  // 相對全球最低 50% 成人平均收入 €5,100 (WIR 2026 PPP €)
+  const multiplierVsGlobalMedian = annualEurPpp > 0 ? annualEurPpp / GLOBAL_BOTTOM_50_AVERAGE_INCOME_EUR_PPP : 0;
+  // 例外：世界銀行貧窮線 $3.00/天為美元 PPP（2021年價格，年額 $1,095）。貧窮線倍數繼續用 annualUsdPpp 比較，不轉為歐元。
+  const multiplierVsPovertyLine = annualUsdPpp > 0 ? annualUsdPpp / GLOBAL_POVERTY_EXTREME_ANNUAL : 0;
+  
+  const dailyEarningsUsdPpp = annualUsdPpp / 365;
+  const hourlyEarningsUsdPpp = annualUsdPpp / 2080;
+  const dailyEarningsEurPpp = annualEurPpp / 365;
+  const hourlyEarningsEurPpp = annualEurPpp / 2080;
   
   // Domestic ranking
   const domesticPercentile = calculateDomesticPercentile(individualEquivalentLocal, country);
@@ -256,12 +262,15 @@ export function calculateRanking(params: {
     annualLocal,
     annualUsdNominal,
     annualUsdPpp,
+    annualEurPpp,
     individualEquivalentLocal,
     individualEquivalentUsdPpp: annualUsdPpp,
     multiplierVsGlobalMedian,
     multiplierVsPovertyLine,
     dailyEarningsUsdPpp,
     hourlyEarningsUsdPpp,
+    dailyEarningsEurPpp,
+    hourlyEarningsEurPpp,
     domesticPercentile,
     domesticTopPercent,
     tierKey,
