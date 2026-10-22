@@ -159,8 +159,8 @@ export const CountryComparisonSection: React.FC<CountryComparisonSectionProps> =
 
       <div className="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-400">
         {lang === 'zh'
-          ? '註：各國中位數年薪取材自 OECD Income Distribution Database 及各國官方統計處（如行政院主計總處、美國勞工統計局、日本厚生勞動省）。換算金額已透過 World Bank 實質購買力平價 (PPP) 係數平準。'
-          : 'Note: National median salaries are sourced from OECD and official statistical bureaus (US BLS, Taiwan DGBAS, UK ONS, Japan MHLW), converted via World Bank PPP indices.'}
+          ? '註：各國中位數年薪／每月就業收入取材自各國官方統計處（如香港政府統計處每月就業收入、行政院主計總處、美國勞工統計局、日本厚生勞動省等）及 OECD 數據庫。換算金額已透過 World Bank 實質購買力平價 (PPP) 係數平準。'
+          : 'Note: National median earnings/income are sourced from official statistical bureaus (e.g. HK Census Monthly Employment Earnings, Taiwan DGBAS, US BLS, Japan MHLW) and OECD databases, normalized via World Bank PPP factors.'}
       </div>
     </div>
   );

@@ -39,17 +39,17 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   const shareText =
     lang === 'zh'
       ? `🌍【全球收入排名計算器】
-我目前的${mode === 'income' ? '年收入' : '淨資產'}位列全球前 ${formattedTopPercent}%！
-· 超越全球約 ${formatPopulationCount(result.poorerCountEstimate, 'zh')} 人
-· 全球收入中位數的 ${result.multiplierVsGlobalMedian.toFixed(1)} 倍
+我目前的${mode === 'income' ? '年收入' : '淨資產'}位列全球前 ${formattedTopPercent}%（成年人口計）！
+· 超越全球約 ${formatPopulationCount(result.poorerCountEstimate, 'zh')} 名成年人
+· 全球底層 50% 平均收入的 ${result.multiplierVsGlobalMedian.toFixed(1)} 倍
 · 在 ${country.nameZh} 位列前 ${result.domesticTopPercent.toFixed(1)}%
-數據校準自 WID 世界不平等資料庫與世界銀行。`
+數據依據：世界不平等報告 WIR 2026 (WID.world)。`
       : `🌍 [Global Income Rank Calculator]
-My ${mode === 'income' ? 'annual income' : 'net worth'} ranks in the TOP ${formattedTopPercent}% globally!
-· Above approx ${formatPopulationCount(result.poorerCountEstimate, 'en')} people worldwide
-· ${result.multiplierVsGlobalMedian.toFixed(1)}x the global median
+My ${mode === 'income' ? 'annual income' : 'net worth'} ranks in the TOP ${formattedTopPercent}% globally (among adults)!
+· Above approx ${formatPopulationCount(result.poorerCountEstimate, 'en')} adults worldwide
+· ${result.multiplierVsGlobalMedian.toFixed(1)}x the global bottom 50% average
 · Top ${result.domesticTopPercent.toFixed(1)}% in ${country.nameEn}
-Calibrated with the World Inequality Database (WID.world) and World Bank.`;
+Calibrated with the World Inequality Report 2026 (WID.world).`;
 
   const handleCopy = async () => {
     try {

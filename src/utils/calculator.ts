@@ -2,6 +2,7 @@ import {
   COUNTRIES,
   CURRENCIES,
   GLOBAL_ADULT_POPULATION,
+  GLOBAL_BOTTOM_50_AVERAGE_INCOME_PPP,
   GLOBAL_INCOME_SPLINE_NOMINAL,
   GLOBAL_INCOME_SPLINE_PPP,
   GLOBAL_MEDIAN_ANNUAL_INCOME_PPP,
@@ -183,19 +184,28 @@ export function calculateRanking(params: {
 
   const currency = CURRENCIES[currencyCode] || CURRENCIES.USD;
   const country = COUNTRIES[countryCode] || COUNTRIES.TW;
+  const safeAdults = Math.max(1, Math.floor(adults || 1));
+
+  // 1. Calculate individual equivalent in local currency
+  let annualLocal = 0;
+  let individualEquivalentLocal = 0;
+
+  if (mode === 'wealth') {
+    // 財富是存量：不按輸入期間乘以 12 或其他倍數，也不套用等值尺度。
+    // 個人財富 = 家庭淨資產 ÷ 成人人數
+    annualLocal = amount;
+    individualEquivalentLocal = amount / safeAdults;
+  } else {
+    // 收入模式：WID 做法是將收入平均分給家中成人，兒童不計入分攤。
+    // 個人收入 = 家庭年收入 ÷ 成人人數
+    annualLocal = normalizeToAnnual(amount, period);
+    individualEquivalentLocal = annualLocal / safeAdults;
+  }
   
-  // 1. Annualize local currency
-  const annualLocal = normalizeToAnnual(amount, period);
-  
-  // 2. Household scale adjustment
-  const eqScale = calculateOecdEquivalenceScale(adults, children);
-  const individualEquivalentLocal = annualLocal / eqScale;
-  
-  // 3. Convert to USD Nominal
+  // 2. Convert to USD Nominal
   const annualUsdNominal = individualEquivalentLocal / (currency.rateToUsd || 1.0);
   
-  // 4. Convert to USD PPP
-  // If user selected country matches currency or has specific PPP factor:
+  // 3. Convert to USD PPP
   const pppRate = currency.pppFactorToUsd || country.pppRate || 1.0;
   const annualUsdPpp = individualEquivalentLocal / pppRate;
   
@@ -205,7 +215,7 @@ export function calculateRanking(params: {
     // Wealth calculation uses nominal wealth distribution
     globalPercentile = interpolatePercentile(annualUsdNominal, GLOBAL_WEALTH_SPLINE, 'wealthUsd');
   } else {
-    // Income mode
+    // Income mode (WIR 2026 pre-tax national income per adult, USD PPP)
     if (method === 'ppp') {
       globalPercentile = interpolatePercentile(annualUsdPpp, GLOBAL_INCOME_SPLINE_PPP, 'incomeUsdPpp');
     } else {
@@ -217,14 +227,16 @@ export function calculateRanking(params: {
   globalPercentile = Math.max(0.01, Math.min(99.999, globalPercentile));
   const topPercent = Math.max(0.001, 100 - globalPercentile);
   
-  // Population estimates
-  const targetPopulation = mode === 'wealth' ? GLOBAL_ADULT_POPULATION : GLOBAL_TOTAL_POPULATION;
+  // Population estimates: 收入與財富模式一律採用 GLOBAL_ADULT_POPULATION（成人）
+  const targetPopulation = GLOBAL_ADULT_POPULATION;
   const richerCountEstimate = Math.round((topPercent / 100) * targetPopulation);
   const poorerCountEstimate = targetPopulation - richerCountEstimate;
   
   // Multipliers
   const effectiveUsdPpp = annualUsdPpp;
-  const multiplierVsGlobalMedian = effectiveUsdPpp > 0 ? effectiveUsdPpp / GLOBAL_MEDIAN_ANNUAL_INCOME_PPP : 0;
+  // 相對全球最低 50% 平均收入 $5,100 (WIR 2026)
+  const multiplierVsGlobalMedian = effectiveUsdPpp > 0 ? effectiveUsdPpp / GLOBAL_BOTTOM_50_AVERAGE_INCOME_PPP : 0;
+  // 相對極端貧窮線 $3.00/天 = $1,095/年 (世界銀行 2021 PPP)
   const multiplierVsPovertyLine = effectiveUsdPpp > 0 ? effectiveUsdPpp / GLOBAL_POVERTY_EXTREME_ANNUAL : 0;
   const dailyEarningsUsdPpp = effectiveUsdPpp / 365;
   const hourlyEarningsUsdPpp = effectiveUsdPpp / 2080;

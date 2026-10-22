@@ -62,7 +62,7 @@ export const InteractiveCurveChart: React.FC<InteractiveCurveChartProps> = ({
     const incomeVal = Math.pow(10, logVal);
 
     // Density model: log-normal component + Pareto tail
-    const mu = Math.log10(3920); // peak around median $3,920
+    const mu = Math.log10(6200); // peak around median $6,200
     const sigma = 0.58;
     const z = (logVal - mu) / sigma;
     const logNormalDensity = Math.exp(-0.5 * z * z);
@@ -84,10 +84,10 @@ export const InteractiveCurveChart: React.FC<InteractiveCurveChartProps> = ({
 
   // Key reference points
   const referencePoints = [
-    { label: lang === 'zh' ? '極端貧窮 $785' : 'Poverty $785', income: 785 },
-    { label: lang === 'zh' ? '全球中位數 $3,920' : 'Median $3,920', income: 3920 },
-    { label: lang === 'zh' ? '前 10% ($38k)' : 'Top 10% ($38k)', income: 38000 },
-    { label: lang === 'zh' ? '前 1% ($130k)' : 'Top 1% ($130k)', income: 130000 },
+    { label: lang === 'zh' ? '極端貧窮 $1,095' : 'Poverty $1,095', income: 1095 },
+    { label: lang === 'zh' ? '底層均值 $5,100' : 'Bottom 50% $5.1k', income: 5100 },
+    { label: lang === 'zh' ? '前 10% ($65.5k)' : 'Top 10% ($65.5k)', income: 65500 },
+    { label: lang === 'zh' ? '前 1% ($250.3k)' : 'Top 1% ($250.3k)', income: 250300 },
   ];
 
   const userX = getX(userAnnualUsdPpp);

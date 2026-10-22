@@ -372,11 +372,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
           ) : (
             <div className="px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs text-slate-600 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-slate-400"></span>
-              <span>
-                {lang === 'zh'
-                  ? '單身個人計算：1 位成人等效所得權重 1.0'
-                  : 'Single earner calculation: 1.0 adult equivalent weight'}
-              </span>
+              <span>{t.singleIndividualNote}</span>
             </div>
           )}
         </div>

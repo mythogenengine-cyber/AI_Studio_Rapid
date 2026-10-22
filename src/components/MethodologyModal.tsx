@@ -64,11 +64,11 @@ export const MethodologyModal: React.FC<MethodologyModalProps> = ({
 
           <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
             <strong className="text-slate-900 block font-semibold mb-1">
-              {lang === 'zh' ? '4. 經濟合作暨發展組織 (OECD) 修改型等效規模' : '4. Modified OECD Equivalence Scale'}
+              {lang === 'zh' ? '4. 家庭收入成人均分原則 (WID Standard)' : '4. Adult Equal-Sharing Standard (WID Standard)'}
             </strong>
             <p>{t.sourceOECD}</p>
             <div className="mt-2 text-xs font-mono bg-white p-2 rounded border border-slate-200 text-slate-800">
-              Denominator = 1 + 0.5 × (Adults - 1) + 0.3 × Children
+              {lang === 'zh' ? '個人換算所得 = 家庭總年收入 ÷ 成人人數 (18歲以上)' : 'Individual Equivalent = Household Income ÷ Number of Adults (18+)'}
             </div>
           </div>
 

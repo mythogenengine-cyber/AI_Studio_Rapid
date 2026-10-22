@@ -7,14 +7,15 @@ export const DATA_LOCKED_LABEL_EN = 'Data Locked As Of: October 2026 · Offline 
 export const GLOBAL_TOTAL_POPULATION = 8_150_000_000;
 export const GLOBAL_ADULT_POPULATION = 5_480_000_000;
 
-// World Bank Global Poverty Lines (USD PPP per year per person)
-export const GLOBAL_POVERTY_EXTREME_ANNUAL = 2.15 * 365; // ~$785/yr
+// World Bank Global Poverty Lines (USD PPP per year per person, World Bank June 2025 standard, 2021 PPP)
+export const GLOBAL_POVERTY_EXTREME_ANNUAL = 3.00 * 365; // $1,095/yr ($3.00/day, 2021 PPP)
 export const GLOBAL_POVERTY_LOWER_MIDDLE_ANNUAL = 3.65 * 365; // ~$1,332/yr
 export const GLOBAL_POVERTY_UPPER_MIDDLE_ANNUAL = 6.85 * 365; // ~$2,500/yr
 
-// Global Median Income (World Inequality Database WID & World Bank PIP in USD PPP)
-export const GLOBAL_MEDIAN_ANNUAL_INCOME_PPP = 3920; // ~$10.74/day
-export const GLOBAL_AVERAGE_ANNUAL_INCOME_PPP = 18600;
+// Global Income Benchmarks (World Inequality Report 2026 / WID.world, USD PPP per adult)
+export const GLOBAL_BOTTOM_50_AVERAGE_INCOME_PPP = 5100; // 最低 50% 成人平均收入約 $5,100 USD PPP (WIR 2026)
+export const GLOBAL_MEDIAN_ANNUAL_INCOME_PPP = 6200; // 曲線 p50 中位數插值估算 ($6,200 USD PPP)
+export const GLOBAL_AVERAGE_ANNUAL_INCOME_PPP = 23380; // WIR 2026 全球成人平均所得約 $23,380 USD PPP
 
 // Global Wealth Benchmarks (UBS Global Wealth Report in USD nominal)
 export const GLOBAL_MEDIAN_NET_WEALTH = 9000;
@@ -211,17 +212,18 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'HKD',
     pppRate: 6.15,
     fxRate: 7.78,
+    // 香港政府統計處《綜合住戶統計調查按季統計報告》：就業人士每月就業收入中位數為 HK$23,600（年額 283,200）。其他百分位無單一官方發布者皆標示為估算。
     percentiles: {
-      p10: 110_000,
-      p25: 180_000,
-      p50: 260_000, // Median monthly HK$21,000
-      p75: 420_000,
-      p90: 720_000,
-      p95: 1_100_000,
-      p99: 2_400_000,
+      p10: 120_000, // 估算（基層就業收入）
+      p25: 195_000, // 估算（綜合住戶估算）
+      p50: 283_200, // 統計處官方中位數：每月就業收入 HK$23,600（年額 283,200）
+      p75: 480_000, // 估算
+      p90: 780_000, // 估算
+      p95: 1_150_000, // 估算
+      p99: 2_400_000, // 估算
     },
-    medianAnnualIncomeLocal: 260_000,
-    averageAnnualIncomeLocal: 340_000,
+    medianAnnualIncomeLocal: 283_200, // 每月就業收入中位數 HK$23,600 × 12
+    averageAnnualIncomeLocal: 350_000, // 估算
   },
   KR: {
     code: 'KR',
@@ -360,72 +362,64 @@ export const COUNTRIES: Record<string, CountryData> = {
 
 /**
  * Global Income Curve Spline Points (Percentile 0 to 100 vs Annual Income in USD PPP).
- * Calibrated against World Inequality Database (WID.world 2024-2026 update) & World Bank PIP.
- * Notes:
- * - p50 = $3,920
- * - p90 = $38,000 PPP ($65,500 nominal individual)
- * - p95 = $62,000 PPP
- * - p99 = $130,000 PPP ($250,300 nominal individual)
- * - p99.9 = $390,000 PPP
- * - p99.99 = $1,350,000 PPP
+ * 基準來源：世界不平等報告 2026（World Inequality Report 2026, WIR 2026 / WID.world）。
+ * 統計口徑：成人稅前國民收入，PPP 美元（Pre-tax national income per adult, USD PPP）。
+ * 核心標竿：
+ * - 最低 50% 成人平均收入：約 $5,100 USD PPP (WIR 2026)
+ * - p50 中位數：約 $6,200 USD PPP (插值估算)
+ * - p90 前 10% 門檻：$65,500 USD PPP (WIR 2026)
+ * - p99 前 1% 門檻：$250,300 USD PPP (WIR 2026)
  */
 export const GLOBAL_INCOME_SPLINE_PPP: Array<{ percentile: number; incomeUsdPpp: number }> = [
-  { percentile: 0.0, incomeUsdPpp: 0 },
-  { percentile: 1.0, incomeUsdPpp: 190 },
-  { percentile: 2.0, incomeUsdPpp: 280 },
-  { percentile: 5.0, incomeUsdPpp: 460 },
-  { percentile: 10.0, incomeUsdPpp: 780 }, // extreme poverty line ~$785/yr ($2.15/day)
-  { percentile: 15.0, incomeUsdPpp: 1080 },
-  { percentile: 20.0, incomeUsdPpp: 1350 }, // lower-middle poverty line ~$3.65/day
-  { percentile: 30.0, incomeUsdPpp: 1950 },
-  { percentile: 40.0, incomeUsdPpp: 2750 },
-  { percentile: 50.0, incomeUsdPpp: 3920 }, // Global Median
-  { percentile: 60.0, incomeUsdPpp: 5800 },
-  { percentile: 70.0, incomeUsdPpp: 9600 },
-  { percentile: 75.0, incomeUsdPpp: 12800 },
-  { percentile: 80.0, incomeUsdPpp: 17500 },
-  { percentile: 85.0, incomeUsdPpp: 24500 },
-  { percentile: 90.0, incomeUsdPpp: 38000 }, // Global Top 10%
-  { percentile: 92.0, incomeUsdPpp: 46000 },
-  { percentile: 94.0, incomeUsdPpp: 56000 },
-  { percentile: 95.0, incomeUsdPpp: 62500 }, // Global Top 5%
-  { percentile: 96.0, incomeUsdPpp: 71000 },
-  { percentile: 97.0, incomeUsdPpp: 83000 },
-  { percentile: 98.0, incomeUsdPpp: 101000 }, // Global Top 2%
-  { percentile: 99.0, incomeUsdPpp: 130000 }, // Global Top 1% threshold (~$127,000 - $135,000 PPP)
-  { percentile: 99.2, incomeUsdPpp: 145000 },
-  { percentile: 99.5, incomeUsdPpp: 195000 }, // Global Top 0.5%
-  { percentile: 99.8, incomeUsdPpp: 290000 },
-  { percentile: 99.9, incomeUsdPpp: 395000 }, // Global Top 0.1%
-  { percentile: 99.95, incomeUsdPpp: 680000 },
-  { percentile: 99.99, incomeUsdPpp: 1350000 }, // Global Top 0.01%
-  { percentile: 99.999, incomeUsdPpp: 4800000 },
-  { percentile: 100.0, incomeUsdPpp: 25000000 },
+  { percentile: 0.0, incomeUsdPpp: 0 }, // 起始點
+  { percentile: 1.0, incomeUsdPpp: 350 }, // 插值估算
+  { percentile: 5.0, incomeUsdPpp: 750 }, // 插值估算
+  { percentile: 10.0, incomeUsdPpp: 1095 }, // 世界銀行極端貧窮線基準 ($3.00/天，2021 PPP，年額 $1,095)
+  { percentile: 20.0, incomeUsdPpp: 1800 }, // 插值估算
+  { percentile: 30.0, incomeUsdPpp: 2700 }, // 插值估算
+  { percentile: 40.0, incomeUsdPpp: 4100 }, // 插值估算
+  { percentile: 50.0, incomeUsdPpp: 6200 }, // 插值估算（令最低 50% 平均收入符合 WIR 2026 之約 $5,100）
+  { percentile: 60.0, incomeUsdPpp: 10500 }, // 插值估算
+  { percentile: 70.0, incomeUsdPpp: 18500 }, // 插值估算
+  { percentile: 75.0, incomeUsdPpp: 25000 }, // 插值估算
+  { percentile: 80.0, incomeUsdPpp: 34000 }, // 插值估算
+  { percentile: 85.0, incomeUsdPpp: 47000 }, // 插值估算
+  { percentile: 90.0, incomeUsdPpp: 65500 }, // WIR 2026 基準：全球前 10% 門檻 (PPP 美元/成人)
+  { percentile: 92.0, incomeUsdPpp: 82000 }, // 插值估算
+  { percentile: 95.0, incomeUsdPpp: 122000 }, // 插值估算
+  { percentile: 97.0, incomeUsdPpp: 165000 }, // 插值估算
+  { percentile: 98.0, incomeUsdPpp: 198000 }, // 插值估算
+  { percentile: 99.0, incomeUsdPpp: 250300 }, // WIR 2026 基準：全球前 1% 門檻 (PPP 美元/成人)
+  { percentile: 99.5, incomeUsdPpp: 390000 }, // 插值估算
+  { percentile: 99.9, incomeUsdPpp: 750000 }, // 插值估算 (全球前 0.1% 門檻)
+  { percentile: 99.99, incomeUsdPpp: 2500000 }, // 插值估算 (全球前 0.01% 門檻)
+  { percentile: 100.0, incomeUsdPpp: 50000000 }, // 插值估算上限
 ];
 
 /**
  * Global Income Curve Spline in Nominal USD (market exchange rates).
+ * 說明：市場匯率所得分配欠缺單一官方權威全球統計，以下曲線為粗略估算，僅供參考。
  */
 export const GLOBAL_INCOME_SPLINE_NOMINAL: Array<{ percentile: number; incomeUsdNominal: number }> = [
-  { percentile: 0.0, incomeUsdNominal: 0 },
-  { percentile: 5.0, incomeUsdNominal: 160 },
-  { percentile: 10.0, incomeUsdNominal: 380 },
-  { percentile: 20.0, incomeUsdNominal: 850 },
-  { percentile: 30.0, incomeUsdNominal: 1350 },
-  { percentile: 40.0, incomeUsdNominal: 2050 },
-  { percentile: 50.0, incomeUsdNominal: 3100 }, // Global median nominal
-  { percentile: 60.0, incomeUsdNominal: 5200 },
-  { percentile: 70.0, incomeUsdNominal: 9800 },
-  { percentile: 80.0, incomeUsdNominal: 21000 },
-  { percentile: 85.0, incomeUsdNominal: 35000 },
-  { percentile: 90.0, incomeUsdNominal: 65500 }, // Top 10% nominal
-  { percentile: 95.0, incomeUsdNominal: 115000 },
-  { percentile: 98.0, incomeUsdNominal: 185000 },
-  { percentile: 99.0, incomeUsdNominal: 250300 }, // Top 1% nominal
-  { percentile: 99.5, incomeUsdNominal: 390000 },
-  { percentile: 99.9, incomeUsdNominal: 890000 },
-  { percentile: 99.99, incomeUsdNominal: 3200000 },
-  { percentile: 100.0, incomeUsdNominal: 45000000 },
+  { percentile: 0.0, incomeUsdNominal: 0 }, // 粗略估算，僅供參考
+  { percentile: 5.0, incomeUsdNominal: 160 }, // 粗略估算，僅供參考
+  { percentile: 10.0, incomeUsdNominal: 380 }, // 粗略估算，僅供參考
+  { percentile: 20.0, incomeUsdNominal: 850 }, // 粗略估算，僅供參考
+  { percentile: 30.0, incomeUsdNominal: 1350 }, // 粗略估算，僅供參考
+  { percentile: 40.0, incomeUsdNominal: 2050 }, // 粗略估算，僅供參考
+  { percentile: 50.0, incomeUsdNominal: 3100 }, // 粗略估算，僅供參考
+  { percentile: 60.0, incomeUsdNominal: 5200 }, // 粗略估算，僅供參考
+  { percentile: 70.0, incomeUsdNominal: 9800 }, // 粗略估算，僅供參考
+  { percentile: 80.0, incomeUsdNominal: 21000 }, // 粗略估算，僅供參考
+  { percentile: 85.0, incomeUsdNominal: 35000 }, // 粗略估算，僅供參考
+  { percentile: 90.0, incomeUsdNominal: 65500 }, // 粗略估算，僅供參考
+  { percentile: 95.0, incomeUsdNominal: 115000 }, // 粗略估算，僅供參考
+  { percentile: 98.0, incomeUsdNominal: 185000 }, // 粗略估算，僅供參考
+  { percentile: 99.0, incomeUsdNominal: 250300 }, // 粗略估算，僅供參考
+  { percentile: 99.5, incomeUsdNominal: 390000 }, // 粗略估算，僅供參考
+  { percentile: 99.9, incomeUsdNominal: 890000 }, // 粗略估算，僅供參考
+  { percentile: 99.99, incomeUsdNominal: 3200000 }, // 粗略估算，僅供參考
+  { percentile: 100.0, incomeUsdNominal: 45000000 }, // 粗略估算，僅供參考
 ];
 
 /**
@@ -511,11 +505,11 @@ export const PRESET_SCENARIOS: PresetScenario[] = [
   },
   {
     id: 'global_median',
-    titleZh: '全球人類所得中位數',
-    titleEn: 'Global Human Median',
-    subtitleZh: '年收入 3,920 美元 (PPP)',
-    subtitleEn: '$3,920/yr (World Bank)',
-    amount: 3920,
+    titleZh: '全球底層 50% 平均收入',
+    titleEn: 'Global Bottom 50% Avg',
+    subtitleZh: '年收入 5,100 美元 PPP (WIR 2026)',
+    subtitleEn: '$5,100/yr PPP (WIR 2026)',
+    amount: 5100,
     currency: 'USD',
     period: 'year',
     country: 'US',
@@ -526,9 +520,9 @@ export const PRESET_SCENARIOS: PresetScenario[] = [
     id: 'global_top_1',
     titleZh: '全球收入前 1% 門檻',
     titleEn: 'Global Top 1% Threshold',
-    subtitleZh: '年收入 13 萬美元 PPP',
-    subtitleEn: '$130,000/yr PPP (WID)',
-    amount: 130000,
+    subtitleZh: '年收入 250,300 美元 PPP (WIR 2026)',
+    subtitleEn: '$250,300/yr PPP (WIR 2026)',
+    amount: 250300,
     currency: 'USD',
     period: 'year',
     country: 'US',

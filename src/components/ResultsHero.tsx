@@ -113,9 +113,9 @@ export const ResultsHero: React.FC<ResultsHeroProps> = ({
       <div className="mb-8 p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200">
         <div className="flex justify-between items-center text-xs font-semibold text-slate-500 mb-2">
           <span>0% ({lang === 'zh' ? '底層' : 'Lowest'})</span>
-          <span>50% ({lang === 'zh' ? '全球中位數 $3.9k' : 'Global Median'})</span>
-          <span>90% ({lang === 'zh' ? '前 10% $38k' : 'Top 10%'})</span>
-          <span className="text-indigo-700 font-bold">99% ({lang === 'zh' ? '前 1% $130k' : 'Top 1%'})</span>
+          <span>50% ({lang === 'zh' ? '底層50%均值 $5.1k' : 'Bottom 50% Avg $5.1k'})</span>
+          <span>90% ({lang === 'zh' ? '前 10% $65.5k' : 'Top 10% $65.5k'})</span>
+          <span className="text-indigo-700 font-bold">99% ({lang === 'zh' ? '前 1% $250.3k' : 'Top 1% $250.3k'})</span>
         </div>
 
         {/* Percentile track */}
@@ -145,7 +145,7 @@ export const ResultsHero: React.FC<ResultsHeroProps> = ({
 
       {/* 4 Key Statistical Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: vs Global Median */}
+        {/* Card 1: vs Global Median / Bottom 50% Avg */}
         <div className="p-4 rounded-xl bg-slate-50/70 border border-slate-200 hover:border-slate-300 transition-colors">
           <div className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-1">
             <TrendingUp className="w-3.5 h-3.5 text-indigo-600" />
@@ -209,6 +209,21 @@ export const ResultsHero: React.FC<ResultsHeroProps> = ({
               : `Above ${(result.domesticPercentile).toFixed(1)}% of local earners`}
           </p>
         </div>
+      </div>
+
+      {/* 這個排名量不到的事 (What this ranking cannot measure) */}
+      <div className="mt-6 p-4 sm:p-5 rounded-xl bg-amber-50/80 border border-amber-200/90 text-amber-950 text-xs sm:text-sm">
+        <h3 className="font-bold text-amber-950 text-sm mb-2.5 flex items-center gap-1.5">
+          <span>⚠️</span>
+          <span>{t.unmeasuredTitle}</span>
+        </h3>
+        <ul className="space-y-1.5 text-amber-900/95 leading-relaxed list-none">
+          <li>{t.unmeasured1}</li>
+          <li>{t.unmeasured2}</li>
+          <li>{t.unmeasured3}</li>
+          <li>{t.unmeasured4}</li>
+          <li>{t.unmeasured5}</li>
+        </ul>
       </div>
     </div>
   );
