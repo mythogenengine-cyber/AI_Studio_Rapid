@@ -37,6 +37,10 @@ export const MethodologyModal: React.FC<MethodologyModalProps> = ({
         </div>
 
         <div className="py-5 space-y-4 text-xs sm:text-sm text-slate-600 leading-relaxed">
+          <div className="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-950 font-medium">
+            {t.sourceNoApiKey}
+          </div>
+
           <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
             <strong className="text-slate-900 block font-semibold mb-1">
               {lang === 'zh' ? '1. 世界不平等資料庫 (WID.world)' : '1. World Inequality Database (WID.world)'}

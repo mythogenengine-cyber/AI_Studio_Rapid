@@ -4,8 +4,9 @@ export const TRANSLATIONS = {
   zh: {
     // Header & Brand
     appTitle: '全球收入排名計算器',
-    appBadge: 'WID 世界不平等資料庫校準',
-    subtitle: '探索你的收入與財富在全世界 81 億人口中的精確百分位坐標',
+    appBadge: '資料鎖定基準：2026年10月 · 純靜態離線演算法 (免 API Key / 零 AI 調用)',
+    noApiKeyBadge: '免 API KEY · 純本機運算',
+    subtitle: '探索你的收入與財富在全世界 81 億人口中的精確百分位坐標（已鎖定最新經濟學標竿，絕不消耗 AI Token）',
     switchLang: 'English',
     
     // Modes & Tabs
@@ -129,7 +130,8 @@ export const TRANSLATIONS = {
     closeBtn: '關閉',
     
     // Methodology Content
-    methodologyTitle: '資料來源與經濟學模型說明',
+    methodologyTitle: '資料來源與經濟學模型說明 (100% 離線純本機運算)',
+    sourceNoApiKey: '⚡ 零 API KEY 保證：本系統所有百分位與國別對照皆為 100% 本地 JavaScript 計量經濟學插值運算，所有 WID、世界銀行、OECD 與各國匯率係數已完整鎖定於前端靜態數據庫（基準日：2026 年 10 月 21 日），完全不調用任何後端 AI 模型或付費 API，不會產生任何 AI Token 費用。',
     sourceWID: '1. 世界不平等資料庫 (World Inequality Database, WID.world)：提供全球所得與財富分配的最新百分位數據（2022-2026 年監測）。',
     sourceWB: '2. 世界銀行貧窮與不平等平台 (World Bank PIP)：提供各國國際購買力平價 (PPP) 係數、極端貧窮線 ($2.15/天) 與各階層中位數基準。',
     sourceUBS: '3. 瑞銀全球財富報告 (UBS Global Wealth Report)：提供世界各國成年人淨資產分布與百萬美元富翁人數統計。',
@@ -140,8 +142,9 @@ export const TRANSLATIONS = {
   en: {
     // Header & Brand
     appTitle: 'Global Income Rank Calculator',
-    appBadge: 'WID & World Bank Calibrated',
-    subtitle: 'Discover where your income and wealth place you among 8.1 billion people worldwide',
+    appBadge: 'Data As Of: Oct 2026 · 100% Offline Algorithm (No API Key / Zero AI Calls)',
+    noApiKeyBadge: 'NO API KEY · 100% Local Math',
+    subtitle: 'Discover where your income and wealth place you among 8.1 billion people (Frozen benchmarks, zero AI token cost)',
     switchLang: '繁體中文',
     
     // Modes & Tabs
@@ -265,7 +268,8 @@ export const TRANSLATIONS = {
     closeBtn: 'Close',
     
     // Methodology Content
-    methodologyTitle: 'Data Sources & Econometric Modeling',
+    methodologyTitle: 'Data Sources & Econometric Modeling (100% Offline Local Engine)',
+    sourceNoApiKey: '⚡ ZERO API KEY GUARANTEE: All percentiles, purchasing power parity adjustments, and country benchmarks run 100% locally in your browser via econometric interpolation. All WID, World Bank, OECD, and FX exchange rates are permanently frozen in the local frontend bundle (as of October 21, 2026). Zero backend AI model calls, zero API keys required, and zero token costs.',
     sourceWID: '1. World Inequality Database (WID.world): Provides latest empirical percentile thresholds and global income distribution curves.',
     sourceWB: '2. World Bank Poverty & Inequality Platform (PIP): Provides Purchasing Power Parity (PPP) conversion indices, poverty lines ($2.15/day), and international median benchmarks.',
     sourceUBS: '3. UBS Global Wealth Report: Global adult net wealth percentiles and millionaire population counts.',

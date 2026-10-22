@@ -1,5 +1,9 @@
 import { CountryData, CurrencyInfo, PresetScenario } from '../types';
 
+export const DATA_LOCKED_DATE = '2026-10-21';
+export const DATA_LOCKED_LABEL_ZH = '資料鎖定基準：2026 年 10 月 · 離線靜態計量演算法 (免 API Key，零 AI 費用)';
+export const DATA_LOCKED_LABEL_EN = 'Data Locked As Of: October 2026 · Offline Econometric Model (No API Key Required, Zero AI Cost)';
+
 export const GLOBAL_TOTAL_POPULATION = 8_150_000_000;
 export const GLOBAL_ADULT_POPULATION = 5_480_000_000;
 
