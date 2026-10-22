@@ -1,0 +1,6 @@
+{
+  "name": "Global Income & Wealth Rank Calculator | 全球收入排名計算器",
+  "description": "Calculate where your income and net worth rank among 8 billion people worldwide. Features PPP adjustments, country benchmarks, distribution curves, and bilingual support (EN/中).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
