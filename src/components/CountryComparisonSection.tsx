@@ -133,8 +133,22 @@ export const CountryComparisonSection: React.FC<CountryComparisonSectionProps> =
                     {lang === 'zh' ? row.country.nameZh : row.country.nameEn}
                   </td>
                   <td className="py-3.5 px-4 text-right font-mono text-xs tabular-nums text-slate-600 whitespace-nowrap">
-                    {formatCurrency(row.country.medianAnnualIncomeLocal, row.country.currency)}
-                    <span className="text-[10px] text-slate-400 ml-1">/年</span>
+                    <div className="flex items-center justify-end gap-1.5">
+                      <span
+                        className={`text-[10px] px-1.5 py-0.5 rounded font-sans font-medium border ${
+                          row.country.isOfficial
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                            : 'bg-slate-100 text-slate-600 border-slate-200'
+                        }`}
+                        title={lang === 'zh' ? row.country.medianDefinitionZh : row.country.medianDefinitionEn}
+                      >
+                        {row.country.isOfficial ? t.tagOfficial : t.tagEstimate}
+                      </span>
+                      <span>
+                        {formatCurrency(row.country.medianAnnualIncomeLocal, row.country.currency)}
+                        <span className="text-[10px] text-slate-400 ml-1">/年</span>
+                      </span>
+                    </div>
                   </td>
                   <td className="py-3.5 px-4 text-right font-mono text-xs font-semibold tabular-nums text-slate-900 whitespace-nowrap">
                     {formatCurrency(Math.round(row.localEquivalent), row.country.currency)}
@@ -157,10 +171,8 @@ export const CountryComparisonSection: React.FC<CountryComparisonSectionProps> =
         </table>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-400">
-        {lang === 'zh'
-          ? '註：各國中位數年薪／每月就業收入取材自各國官方統計處（如香港政府統計處每月就業收入、行政院主計總處、美國勞工統計局、日本厚生勞動省等）及 OECD 數據庫。換算金額已透過 World Bank 實質購買力平價 (PPP) 係數平準。'
-          : 'Note: National median earnings/income are sourced from official statistical bureaus (e.g. HK Census Monthly Employment Earnings, Taiwan DGBAS, US BLS, Japan MHLW) and OECD databases, normalized via World Bank PPP factors.'}
+      <div className="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 leading-relaxed">
+        {t.tableFootnote}
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ import { getTranslation } from './i18n/translations';
 import { Header } from './components/Header';
 import { CalculatorForm } from './components/CalculatorForm';
 import { ResultsHero } from './components/ResultsHero';
+import { CalculationBreakdown } from './components/CalculationBreakdown';
 import { InteractiveCurveChart } from './components/InteractiveCurveChart';
 import { CountryComparisonSection } from './components/CountryComparisonSection';
 import { GlobalPyramidSection } from './components/GlobalPyramidSection';
@@ -140,6 +141,20 @@ export default function App() {
             currencyCode={currencyCode}
             countryCode={countryCode}
             onOpenShare={() => setIsShareOpen(true)}
+          />
+
+          {/* Section 1.5: How this result is calculated (Directly on page) */}
+          <CalculationBreakdown
+            lang={lang}
+            mode={mode}
+            method={method}
+            amount={amount}
+            currencyCode={currencyCode}
+            countryCode={countryCode}
+            period={period}
+            adults={isHousehold ? adults : 1}
+            children={isHousehold ? children : 0}
+            result={calculationResult}
           />
         </div>
 

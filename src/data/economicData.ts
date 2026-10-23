@@ -51,8 +51,8 @@ export const CURRENCIES: Record<string, CurrencyInfo> = {
 };
 
 /**
- * Benchmark Countries with local annual individual adult equivalent disposable income distribution.
- * Sources: OECD Income Distribution Database, National Bureau of Statistics (e.g. Taiwan DGBAS, US Census, UK ONS, Japan MHLW).
+ * Benchmark Countries with local annual individual adult equivalent income distribution.
+ * Sources: National statistical offices (e.g., HK C&SD, Taiwan DGBAS, US BLS, Japan MHLW, UK ONS, Statistics Korea).
  */
 export const COUNTRIES: Record<string, CountryData> = {
   TW: {
@@ -62,10 +62,17 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'TWD',
     pppRate: 13.8,
     fxRate: 32.2,
+    isOfficial: true,
+    medianDefinitionZh: '受僱員工全年總薪資中位數（含經常性薪資與非經常性獎金）',
+    medianDefinitionEn: 'Median Annual Total Earnings of Employed Staff (incl. bonuses)',
+    sourceNameZh: '行政院主計總處',
+    sourceNameEn: 'Directorate-General of Budget, Accounting and Statistics (DGBAS)',
+    sourceYear: '2023/2024',
+    sourceUrl: 'https://www.stat.gov.tw/',
     percentiles: {
       p10: 240_000,
       p25: 390_000,
-      p50: 520_000, // Median annual salary ~52萬 TWD
+      p50: 520_000, // 薪資中位數 52 萬 TWD
       p75: 780_000,
       p90: 1_220_000,
       p95: 1_680_000,
@@ -81,10 +88,17 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'USD',
     pppRate: 1.0,
     fxRate: 1.0,
+    isOfficial: true,
+    medianDefinitionZh: '全職薪資勞工週薪換算年額中位數 (Usual Weekly Earnings × 52)',
+    medianDefinitionEn: 'Median Annualized Weekly Earnings of Full-Time Wage and Salary Workers',
+    sourceNameZh: '美國勞工統計局 (BLS)',
+    sourceNameEn: 'U.S. Bureau of Labor Statistics (BLS)',
+    sourceYear: '2024',
+    sourceUrl: 'https://www.bls.gov/cps/',
     percentiles: {
       p10: 15_800,
       p25: 28_500,
-      p50: 48_000, // Individual median
+      p50: 48_000,
       p75: 82_000,
       p90: 138_000,
       p95: 195_000,
@@ -100,10 +114,17 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'JPY',
     pppRate: 104.0,
     fxRate: 154.0,
+    isOfficial: true,
+    medianDefinitionZh: '民間企業全職就業者所定給與加計獎金年額中位數',
+    medianDefinitionEn: 'Median Annual Earnings of Full-Time Workers (Basic Wages + Bonuses)',
+    sourceNameZh: '厚生勞動省《賃金構造基本統計調査》',
+    sourceNameEn: 'Ministry of Health, Labour and Welfare (MHLW)',
+    sourceYear: '2023/2024',
+    sourceUrl: 'https://www.mhlw.go.jp/',
     percentiles: {
       p10: 1_850_000,
       p25: 2_900_000,
-      p50: 4_200_000, // Median annual income ~420萬 JPY
+      p50: 4_200_000,
       p75: 6_200_000,
       p90: 9_100_000,
       p95: 12_500_000,
@@ -119,6 +140,13 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'GBP',
     pppRate: 0.69,
     fxRate: 0.78,
+    isOfficial: true,
+    medianDefinitionZh: '全職員工年度總工資中位數 (Gross Annual Earnings for Full-time)',
+    medianDefinitionEn: 'Median Gross Annual Earnings for Full-Time Employees',
+    sourceNameZh: '英國國家統計局 (ONS) ASHE',
+    sourceNameEn: 'Office for National Statistics (ONS) - Annual Survey of Hours and Earnings',
+    sourceYear: '2024',
+    sourceUrl: 'https://www.ons.gov.uk/',
     percentiles: {
       p10: 13_500,
       p25: 22_000,
@@ -138,6 +166,13 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'EUR',
     pppRate: 0.78,
     fxRate: 0.92,
+    isOfficial: true,
+    medianDefinitionZh: '全職員工年度總工資中位數 (Bruttojahresverdienst Vollzeit)',
+    medianDefinitionEn: 'Median Gross Annual Earnings of Full-Time Employees',
+    sourceNameZh: '德國聯邦統計局 (Destatis)',
+    sourceNameEn: 'Federal Statistical Office of Germany (Destatis)',
+    sourceYear: '2024',
+    sourceUrl: 'https://www.destatis.de/',
     percentiles: {
       p10: 16_000,
       p25: 26_000,
@@ -157,6 +192,13 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'CAD',
     pppRate: 1.25,
     fxRate: 1.39,
+    isOfficial: true,
+    medianDefinitionZh: '全年全職就業者稅前就業收入中位數',
+    medianDefinitionEn: 'Median Total Employment Income of Full-Year Full-Time Workers',
+    sourceNameZh: '加拿大統計局 (StatCan)',
+    sourceNameEn: 'Statistics Canada (StatCan)',
+    sourceYear: '2023/2024',
+    sourceUrl: 'https://www.statcan.gc.ca/',
     percentiles: {
       p10: 18_000,
       p25: 32_000,
@@ -176,6 +218,13 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'AUD',
     pppRate: 1.42,
     fxRate: 1.54,
+    isOfficial: true,
+    medianDefinitionZh: '成年全職僱員週薪換算年額中位數 (Full-time Adult Total Earnings × 52)',
+    medianDefinitionEn: 'Median Annualized Weekly Earnings of Full-Time Adult Employees',
+    sourceNameZh: '澳洲統計局 (ABS)',
+    sourceNameEn: 'Australian Bureau of Statistics (ABS)',
+    sourceYear: '2023/2024',
+    sourceUrl: 'https://www.abs.gov.au/',
     percentiles: {
       p10: 22_000,
       p25: 41_000,
@@ -195,10 +244,17 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'SGD',
     pppRate: 1.08,
     fxRate: 1.34,
+    isOfficial: true,
+    medianDefinitionZh: '全職受僱公民與永久居民每月薪資中位數 (S$5,190) × 12（含僱主公積金 CPF 供款）',
+    medianDefinitionEn: 'Median Gross Monthly Wage of Full-Time Employed Residents (S$5,190) × 12 (incl. employer CPF)',
+    sourceNameZh: '新加坡人力部 (MOM) 勞動力報告',
+    sourceNameEn: 'Ministry of Manpower (MOM) Singapore',
+    sourceYear: '2024',
+    sourceUrl: 'https://stats.mom.gov.sg/',
     percentiles: {
       p10: 22_000,
       p25: 38_000,
-      p50: 62_000, // Median monthly wage ~5,190 SGD
+      p50: 62_000,
       p75: 104_000,
       p90: 168_000,
       p95: 240_000,
@@ -214,18 +270,24 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'HKD',
     pppRate: 6.15,
     fxRate: 7.78,
-    // 香港政府統計處《綜合住戶統計調查按季統計報告》：就業人士每月就業收入中位數為 HK$23,600（年額 283,200）。其他百分位無單一官方發布者皆標示為估算。
+    isOfficial: true,
+    medianDefinitionZh: '就業人士每月就業收入中位數 HK$23,600 × 12（年額 283,200；不含外籍家庭傭工）',
+    medianDefinitionEn: 'Median Monthly Employment Earnings of Employed Persons HK$23,600 × 12 (excl. foreign domestic helpers)',
+    sourceNameZh: '香港政府統計處《綜合住戶統計調查按季統計報告》',
+    sourceNameEn: 'Census and Statistics Department of Hong Kong',
+    sourceYear: '2024',
+    sourceUrl: 'https://www.censtatd.gov.hk/',
     percentiles: {
       p10: 120_000, // 估算（基層就業收入）
-      p25: 195_000, // 估算（綜合住戶估算）
-      p50: 283_200, // 統計處官方中位數：每月就業收入 HK$23,600（年額 283,200）
+      p25: 195_000, // 估算
+      p50: 283_200, // 官方中位數：每月就業收入 HK$23,600 × 12
       p75: 480_000, // 估算
       p90: 780_000, // 估算
       p95: 1_150_000, // 估算
       p99: 2_400_000, // 估算
     },
-    medianAnnualIncomeLocal: 283_200, // 每月就業收入中位數 HK$23,600 × 12
-    averageAnnualIncomeLocal: 350_000, // 估算
+    medianAnnualIncomeLocal: 283_200,
+    averageAnnualIncomeLocal: 350_000,
   },
   KR: {
     code: 'KR',
@@ -234,6 +296,13 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'KRW',
     pppRate: 915.0,
     fxRate: 1380.0,
+    isOfficial: true,
+    medianDefinitionZh: '全職薪資勞動者月均所得（約 317 萬韓元）換算年薪中位數（全職常僱口徑；若計入臨時與非正規職，整體薪資中位數約 3,400 萬韓元）',
+    medianDefinitionEn: 'Median Annual Earnings of Full-Time Wage Workers (approx. KRW 3.17M/mo × 12; all wage workers median is approx. KRW 34M)',
+    sourceNameZh: '韓國統計廳 (KOSTAT) 薪資勞動者所得統計 / 僱傭勞動部 (MOEL)',
+    sourceNameEn: 'Statistics Korea (KOSTAT) / Ministry of Employment and Labor (MOEL)',
+    sourceYear: '2023/2024',
+    sourceUrl: 'https://kosis.kr/',
     percentiles: {
       p10: 14_000_000,
       p25: 24_000_000,
@@ -253,10 +322,17 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'CNY',
     pppRate: 4.18,
     fxRate: 7.24,
+    isOfficial: false,
+    medianDefinitionZh: '全國城鄉綜合人均收入與城鎮私營/非私營單位工資綜合估算中位數',
+    medianDefinitionEn: 'Estimated Blended National Median Income (Urban & Rural Blended)',
+    sourceNameZh: '國家統計局國民經濟統計（綜合估算）',
+    sourceNameEn: 'National Bureau of Statistics of China (Blended Estimate)',
+    sourceYear: '2024',
+    sourceUrl: 'http://www.stats.gov.cn/',
     percentiles: {
       p10: 9_200,
       p25: 18_000,
-      p50: 36_000, // Urban/rural blended median
+      p50: 36_000,
       p75: 72_000,
       p90: 140_000,
       p95: 220_000,
@@ -272,6 +348,13 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'INR',
     pppRate: 24.5,
     fxRate: 84.5,
+    isOfficial: false,
+    medianDefinitionZh: '常規領薪僱員（Regular Wage/Salaried）所得估算中位數',
+    medianDefinitionEn: 'Estimated Median Income of Regular Wage/Salaried Workers',
+    sourceNameZh: '印度統計與計劃執行部 PLFS 調查（估算）',
+    sourceNameEn: 'Ministry of Statistics & Programme Implementation (PLFS Estimate)',
+    sourceYear: '2023/2024',
+    sourceUrl: 'https://mospi.gov.in/',
     percentiles: {
       p10: 42_000,
       p25: 85_000,
@@ -291,6 +374,13 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'EUR',
     pppRate: 0.81,
     fxRate: 0.92,
+    isOfficial: true,
+    medianDefinitionZh: '私營部門全職相當就業者年度就業工資中位數 (Salaire net en EQTP)',
+    medianDefinitionEn: 'Median Annual Net Wage for Full-Time Equivalent Private Sector Employees',
+    sourceNameZh: '法國國家統計局 (INSEE)',
+    sourceNameEn: 'National Institute of Statistics and Economic Studies (INSEE)',
+    sourceYear: '2023/2024',
+    sourceUrl: 'https://www.insee.fr/',
     percentiles: {
       p10: 14_500,
       p25: 21_000,
@@ -310,6 +400,13 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'CHF',
     pppRate: 1.12,
     fxRate: 0.88,
+    isOfficial: true,
+    medianDefinitionZh: '全職標準化每月總工資中位數 (CHF 7,000) × 12',
+    medianDefinitionEn: 'Median Standardized Gross Monthly Wage of Full-Time Employees (CHF 7,000) × 12',
+    sourceNameZh: '瑞士聯邦統計局 (FSO)',
+    sourceNameEn: 'Federal Statistical Office of Switzerland (FSO)',
+    sourceYear: '2023/2024',
+    sourceUrl: 'https://www.bfs.admin.ch/',
     percentiles: {
       p10: 38_000,
       p25: 58_000,
@@ -329,6 +426,13 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'MYR',
     pppRate: 1.72,
     fxRate: 4.45,
+    isOfficial: true,
+    medianDefinitionZh: '全職受薪僱員每月工資中位數 (RM 3,500) × 12',
+    medianDefinitionEn: 'Median Monthly Wages of Paid Employees (RM 3,500) × 12',
+    sourceNameZh: '馬來西亞統計局 (DOSM) 薪資報告',
+    sourceNameEn: 'Department of Statistics Malaysia (DOSM)',
+    sourceYear: '2023/2024',
+    sourceUrl: 'https://www.dosm.gov.my/',
     percentiles: {
       p10: 14_400,
       p25: 25_000,
@@ -348,6 +452,13 @@ export const COUNTRIES: Record<string, CountryData> = {
     currency: 'VND',
     pppRate: 8400.0,
     fxRate: 25400.0,
+    isOfficial: false,
+    medianDefinitionZh: '受僱勞工平均工資中位數換算年額估算',
+    medianDefinitionEn: 'Estimated Median Annual Wage of Employed Workers',
+    sourceNameZh: '越南統計總局 (GSO) 勞動就業報告（估算）',
+    sourceNameEn: 'General Statistics Office of Vietnam (GSO Estimate)',
+    sourceYear: '2023/2024',
+    sourceUrl: 'https://www.gso.gov.vn/',
     percentiles: {
       p10: 28_000_000,
       p25: 52_000_000,

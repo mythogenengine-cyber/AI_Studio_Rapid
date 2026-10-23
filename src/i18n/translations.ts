@@ -6,13 +6,13 @@ export const TRANSLATIONS = {
     appTitle: '全球收入排名計算器',
     appBadge: '資料鎖定基準：2026年10月 · 純靜態離線演算法 (免 API Key / 零 AI 調用)',
     noApiKeyBadge: '免 API KEY · 純本機運算',
-    subtitle: '探索你的收入與財富在全世界 81 億人口中的精確百分位坐標（已鎖定最新經濟學標竿，絕不消耗 AI Token）',
+    subtitle: '估算你的收入在全球約 55 億成年人中的大概位置（數據鎖定 2026 年 10 月，離線計算，不使用 AI）',
     switchLang: 'English',
     
     // Modes & Tabs
     modeIncome: '個人／家庭收入',
     modeWealth: '淨資產財富',
-    incomeTabDesc: '評估年度工作報酬與家庭可支配所得',
+    incomeTabDesc: '評估年度工作報酬與稅前收入',
     wealthTabDesc: '評估個人總資產扣除負債後的淨值',
     
     // Form Inputs
@@ -79,11 +79,20 @@ export const TRANSLATIONS = {
     // Insights & Perspective
     insightsTitle: '全球不平等觀察視角',
     insight1Title: '為什麼收入在國內感覺普通，在全球卻名列前茅？',
-    insight1Desc: '已開發國家（如台灣、日本、歐美）擁有高生產力與健全基礎設施。全球一半人口每天生活費非常低。因此只要在成熟經濟體具備穩定全職工作，往往即落在全球前 10%～20% 之內。',
+    insight1Desc: '已開發國家（如台灣、日本、歐美）擁有高生產力與健全基礎設施。全球一半人口每天生活費非常低。因此只要在成熟經濟體具備穩定全職工作，往往即落在全球前 20%～30% 之內。',
     insight2Title: '購買力平價 (PPP) 的限制與注意事項',
     insight2Desc: '購買力平價按全國平均消費籃子計算。如果你收入中租金或外食佔比較高，實際購買力會比換算結果低。',
     insight3Title: '如果將收入換算成工時',
     insight3Desc: '全球最低 50% 平均收入的成年人需要全職工作約 {years} 年，才能賺取您一年的所得。',
+    
+    // Breakdown Block (這個結果是怎樣算出來的)
+    breakdownTitle: '這個結果是怎樣算出來的',
+    breakdownSubtitle: '透明展示完整推算步驟，所有系數均自公開經濟學模型常數動態讀取',
+    step1Title: '步驟 1：家庭人數分攤換算',
+    step2Title: '步驟 2：貨幣基準平準換算',
+    step3Title: '步驟 3：國際比較標準折算',
+    step4Title: '步驟 4：對齊全球分布曲線計算排名',
+    widMethodNote: 'WID 做法：成人平分，兒童不計',
     
     // Unmeasured Box (這個排名量不到的事)
     unmeasuredTitle: '這個排名量不到的事',
@@ -109,6 +118,9 @@ export const TRANSLATIONS = {
     // Country Benchmarks Table
     tableTitle: '跨國所得對比看板',
     tableSubtitle: '您的年收入在不同國家相當於什麼水準？',
+    tableFootnote: '各國中位數的定義與年份不一，部分為估算，詳見『資料來源與計算方法』。表中比較的是你每名成人分得的收入，換算成當地貨幣後在該國的大概位置。',
+    tagOfficial: '官方',
+    tagEstimate: '估算',
     colCountry: '國家／地區',
     colMedianIncome: '該國中位數年薪／收入',
     colYourEquivalent: '您的換算收入',
@@ -153,13 +165,13 @@ export const TRANSLATIONS = {
     appTitle: 'Global Income Rank Calculator',
     appBadge: 'Data As Of: Oct 2026 · 100% Offline Algorithm (No API Key / Zero AI Calls)',
     noApiKeyBadge: 'NO API KEY · 100% Local Math',
-    subtitle: 'Discover where your income and wealth place you among 8.1 billion people (Frozen benchmarks, zero AI token cost)',
+    subtitle: 'Estimate where your income places you among roughly 5.5 billion adults worldwide (Data frozen as of Oct 2026, offline calculation, zero AI used)',
     switchLang: '繁體中文',
     
     // Modes & Tabs
     modeIncome: 'Income Rank',
     modeWealth: 'Net Wealth Rank',
-    incomeTabDesc: 'Assess annual salary and household disposable earnings',
+    incomeTabDesc: 'Assess annual salary and pre-tax earnings',
     wealthTabDesc: 'Assess net assets after subtracting debts and liabilities',
     
     // Form Inputs
@@ -226,11 +238,20 @@ export const TRANSLATIONS = {
     // Insights & Perspective
     insightsTitle: 'Global Inequality Perspective',
     insight1Title: 'Why do average local earnings rank so high globally?',
-    insight1Desc: 'Advanced economies feature advanced productivity, stable institutions, and high capital. Half of the world lives on very low income. A stable wage in a developed economy almost always lands in the global top 10%–20%.',
+    insight1Desc: 'Advanced economies feature advanced productivity, stable institutions, and high capital. Half of the world lives on very low income. A stable wage in a developed economy almost always lands in the global top 20%–30%.',
     insight2Title: 'Purchasing Power Parity (PPP) Caveats',
     insight2Desc: 'Purchasing power parity is calculated based on a national average consumption basket. If rent or eating out accounts for a high share of your spending, your actual purchasing power will be lower than the converted result.',
     insight3Title: 'Earnings over a lifetime',
     insight3Desc: 'An adult earning the global bottom 50% average would need to work for {years} years to earn your annual income.',
+    
+    // Breakdown Block (How this result is calculated)
+    breakdownTitle: 'How this result is calculated',
+    breakdownSubtitle: 'Transparent step-by-step breakdown using actual model parameters',
+    step1Title: 'Step 1: Household Equal-Sharing Division',
+    step2Title: 'Step 2: Currency Benchmark Normalization',
+    step3Title: 'Step 3: International Standard Conversion',
+    step4Title: 'Step 4: Spline Interpolation & Rank Determination',
+    widMethodNote: 'WID methodology: split equally among adults, children not counted',
     
     // Unmeasured Box (這個排名量不到的事)
     unmeasuredTitle: 'What this ranking cannot measure',
@@ -256,6 +277,9 @@ export const TRANSLATIONS = {
     // Country Benchmarks Table
     tableTitle: 'Cross-Country Comparison Matrix',
     tableSubtitle: 'Where would your earnings place you in other nations?',
+    tableFootnote: 'National median definitions and years vary, with some being estimates; see "Sources & Methodology" for details. The table compares your income per adult converted to local currency against approximate local standings.',
+    tagOfficial: 'Official',
+    tagEstimate: 'Estimate',
     colCountry: 'Country / Region',
     colMedianIncome: 'National Median Annual',
     colYourEquivalent: 'Your Income in Local FX',

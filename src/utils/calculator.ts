@@ -312,7 +312,7 @@ export function formatCurrency(
 }
 
 /**
- * Formats population count into readable human form (e.g. 8.1 億 or 8.1 Billion).
+ * Formats population count into readable human form (e.g. 5.5 億 or 5.5 Billion).
  */
 export function formatPopulationCount(count: number, lang: 'zh' | 'en'): string {
   if (count <= 0) return '0';

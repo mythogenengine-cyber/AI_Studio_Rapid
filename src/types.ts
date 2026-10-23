@@ -22,7 +22,14 @@ export interface CountryData {
   currency: string;
   pppRate: number; // local currency per USD PPP
   fxRate: number; // local currency per USD FX
-  // Annual income percentiles in local currency (post-tax individual adult equivalent)
+  isOfficial: boolean; // 官方數據 vs 估算
+  medianDefinitionZh: string;
+  medianDefinitionEn: string;
+  sourceNameZh: string;
+  sourceNameEn: string;
+  sourceYear: string;
+  sourceUrl?: string;
+  // Annual income percentiles in local currency
   percentiles: {
     p10: number;
     p25: number;
